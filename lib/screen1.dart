@@ -14,6 +14,17 @@ class _Main_ScreenState extends State<Main_Screen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: FloatingActionButton(onPressed: (){},child: Icon(Icons.add),),
+      ),
+      appBar: AppBar(
+        title: Text("Chat_App"),
+        actions: [Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Icon(Icons.account_box_rounded,size: 30,),
+        )],
+      ),
       body: GestureDetector(
           onTap: () {
             FirebaseAuth.instance.signOut();
@@ -23,7 +34,7 @@ class _Main_ScreenState extends State<Main_Screen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Center(child: Text("hemlo g")),
+              Center(child: Text("Thank You g")),
             ],
           )),
     );

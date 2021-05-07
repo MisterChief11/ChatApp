@@ -11,6 +11,8 @@ class screen_login extends StatefulWidget {
   _screen_loginState createState() => _screen_loginState();
 }
 
+String usernm;
+
 Future<void> login(context) async {
   GoogleSignIn gs = GoogleSignIn(scopes: ['email']);
   GoogleSignInAccount google_user = await gs.signIn();
@@ -24,8 +26,12 @@ Future<void> login(context) async {
   FirebaseFirestore.instance
       .collection("Users")
       .doc(user.uid)
-      .set({"Parameter": user.email});
-  BlocProvider.of<AppCubitCubit>(context).screendecider(true); 
+      .set({"Parameter": user.email, "User_Name": usernm,"Uid":user.uid});
+  FirebaseFirestore.instance
+      .collection("Global")
+      .doc("Data_list")
+      .set({"List":[usernm]},SetOptions(merge: true));    
+  BlocProvider.of<AppCubitCubit>(context).screendecider(true);
 }
 
 class _screen_loginState extends State<screen_login> {
@@ -40,6 +46,13 @@ class _screen_loginState extends State<screen_login> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          TextField(
+            cursorColor: Colors.black,
+            decoration: InputDecoration(),
+            onChanged: (val) {
+              usernm = val;
+            },
+          ),
           IconButton(
               icon: Icon(Icons.login),
               onPressed: () async {
