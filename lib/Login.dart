@@ -23,14 +23,18 @@ Future<void> login(context) async {
   final UserCredential authResult =
       await FirebaseAuth.instance.signInWithCredential(credential);
   final User user = authResult.user;
+  var snap = await FirebaseFirestore.instance
+      .collection("Global")
+      .doc("Data_list")
+      .get();
+  print(snap.data()["List"]);
   FirebaseFirestore.instance
       .collection("Users")
       .doc(user.uid)
-      .set({"Parameter": user.email, "User_Name": usernm,"Uid":user.uid});
-  FirebaseFirestore.instance
-      .collection("Global")
-      .doc("Data_list")
-      .set({"List":[usernm]},SetOptions(merge: true));    
+      .set({"Parameter": user.email, "User_Name": usernm, "Uid": user.uid});
+  FirebaseFirestore.instance.collection("Global").doc("Data_list").update({
+    "List": [usernm]
+  }, );
   BlocProvider.of<AppCubitCubit>(context).screendecider(true);
 }
 
